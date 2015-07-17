@@ -11,29 +11,43 @@ function get_dependencies($addon) {
 	return $dependencies;
 }
 
-function get_addon($addon) {
+function get_addon($addon, $repos) {
+	print("Start searching for addon $addon...\n");
 	$kodipath="/opt/kodi-server/share/kodi/portable_data/addons";
-	unset($out);
-	$p_addon = preg_quote($addon);
-	$cmd = "xam all | grep '$p_addon\s.*$'";
-	exec($cmd, $out);
-	if(count($out) === 1) {
+	for ($i=count($repos)-1;$i>0;$i--) {
 		unset($out);
-		exec("xam get $addon");
-		exec("mkdir -p '$kodipath'");
-		exec("unzip -o '$addon/*.zip' -d'$kodipath'");
-		$dependencies=get_dependencies($addon);
-		foreach($dependencies as $dep) {
-			get_addon($dep);
+		$cmd="xam get --repo $repos[$i] $addon 2>&1";
+		exec($cmd, $out, $res);
+		$found=false;
+		foreach($out as $line) {
+			print("$line\n");
+			if(preg_match('/^Downloading.*$/', $line)) {
+				$found=true;
+				print("Addon $addon installed\n\n\n");
+				break;
+			}
 		}
-	} else {
-		print("No plugin found $addon\n");
+		if($found) {
+			exec("mkdir -p '$kodipath'");
+			exec("unzip -o '$addon/*.zip' -d'$kodipath'");
+			$dependencies=get_dependencies($addon);
+			foreach($dependencies as $dep) {
+				get_addon($dep, $repos);
+			}
+			break;
+		}
 	}
-
+	if(!$found) {
+		print("Addon $addon not found!\n\n\n");
+	}
 }
 
 $addons=explode("|",$argv[1]);
+exec("xam all --repo 2>&1", $out);
+$prestr=preg_quote("usage: xam all [-h] [--repo {");
+preg_match("/^$prestr([A-Z\,]+)\}\]$/", $out[0], $matches);
+$repos=explode(",",$matches[1]);
 foreach($addons as $addon) {
-	get_addon($addon);
+	get_addon($addon, $repos);
 }
 ?>
