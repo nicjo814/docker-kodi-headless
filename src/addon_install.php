@@ -32,7 +32,7 @@ function get_addon($addon) {
 
 }
 
-$addons=explode(";",$argv[1]);
+$addons=explode("|",$argv[1]);
 foreach($addons as $addon) {
 	get_addon($addon);
 }
