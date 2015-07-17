@@ -145,7 +145,7 @@ pip install cliff && \
 # patch xam with new repos
 cd /usr/local/lib/python2.7/dist-packages && \
 mv /root/xam.patch . && \
-patch -i xam.patch && \
+patch -p0 -i xam.patch && \
 rm xam.patch && \
 
 # fetch source packages
