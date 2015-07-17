@@ -1,0 +1,29 @@
+<settings>
+    <setting id="isheadless" value="true" />
+    <setting id="clean" value="false" />
+    <setting id="cleanonstart" value="false" />
+    <setting id="delay" value="1" />
+    <setting id="forceglobalscan" value="false" />
+    <setting id="hideprogress" value="true" />
+    <setting id="method" value="0" />
+    <setting id="musicsource1" value="" />
+    <setting id="musicsource2" value="" />
+    <setting id="musicsource3" value="" />
+    <setting id="musicsource4" value="" />
+    <setting id="musicsource5" value="" />
+    <setting id="pauseonplayback" value="true" />
+    <setting id="pollinginterval" value="4" />
+    <setting id="recursivepolling" value="true" />
+    <setting id="removalmethod" value="0" />
+    <setting id="scanonstart" value="false" />
+    <setting id="showstatusdialog" value="false" />
+    <setting id="startupdelay" value="0" />
+    <setting id="videosource1" value="" />
+    <setting id="videosource2" value="" />
+    <setting id="videosource3" value="" />
+    <setting id="videosource4" value="" />
+    <setting id="videosource5" value="" />
+    <setting id="watchmusic" value="true" />
+    <setting id="watchvideo" value="true" />
+</settings>
+
