@@ -14,11 +14,11 @@ function get_dependencies($addon) {
 function get_addon($addon, $repos) {
 	print("Start searching for addon $addon...\n");
 	$kodipath="/opt/kodi-server/share/kodi/portable_data/addons";
-	for ($i=count($repos)-1;$i>0;$i--) {
+	$found=false;
+	for ($i=count($repos)-1;$i>=0;$i--) {
 		unset($out);
 		$cmd="xam get --repo $repos[$i] $addon 2>&1";
 		exec($cmd, $out, $res);
-		$found=false;
 		foreach($out as $line) {
 			print("$line\n");
 			if(preg_match('/^Downloading.*$/', $line)) {
