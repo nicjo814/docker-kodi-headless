@@ -1,5 +1,41 @@
 #!/usr/bin/php -q
 <?php
+require_once("repos.php");
+
+function getAllAddons($repos) {
+	$allAddons=array();
+	foreach($repos as $repo) {	
+		$xmlString=file_get_contents($repo['xmlURL']);
+		$xmlObj=simplexml_load_string($xmlString);
+		foreach($xmlObj as $addon) {
+			if(isset($allAddons[(string)$addon->attributes()->{'id'}])) {
+				/*
+				print("Addon " . (string)$addon->attributes()->{'id'} . " already found in repo " .
+					$allAddons[(string)$addon->attributes()->{'id'}]["repo"] . " with version " . 
+					$allAddons[(string)$addon->attributes()->{'id'}]["version"] . "\n" .
+					"Now also found in repo " . $repo["name"] . " with version " . (string)$addon->attributes()->{'version'} . "\n\n\n");
+				 */
+				continue;
+			} else {
+				$dependencies=array();
+				if(isset($addon->requires->import)) {
+					foreach($addon->requires->import as $req) {
+						array_push($dependencies, array(
+							"name"=>(string)$req->attributes()->{'addon'},
+							"version"=>(string)$req->attributes()->{'version'}));
+					}
+				}
+				$allAddons[(string)$addon->attributes()->{'id'}] = array(
+					"version"=>(string)$addon->attributes()->{'version'},
+					"repo"=>$repo["name"],
+					"dlURL"=>$repo["repoURL"] . "/" . (string)$addon->attributes()->{'id'} . "/" .
+					(string)$addon->attributes()->{'id'} . "-" . (string)$addon->attributes()->{'version'} . ".zip",
+						"dependencies"=>$dependencies);
+			}
+		}
+	}
+	return $allAddons;
+}
 
 function get_dependencies($addon) {
 	$kodipath="/opt/kodi-server/share/kodi/portable_data/addons";
@@ -11,29 +47,30 @@ function get_dependencies($addon) {
 	return $dependencies;
 }
 
-function get_addon($addon) {
+function installAddon($addon, $allAddons) {
+	print("Start searching for addon $addon...\n");
 	$kodipath="/opt/kodi-server/share/kodi/portable_data/addons";
-	unset($out);
-	$p_addon = preg_quote($addon);
-	$cmd = "xam all | grep '$p_addon\s.*$'";
-	exec($cmd, $out);
-	if(count($out) === 1) {
-		unset($out);
-		exec("xam get $addon");
-		exec("mkdir -p '$kodipath'");
-		exec("unzip -o '$addon/*.zip' -d'$kodipath'");
-		$dependencies=get_dependencies($addon);
-		foreach($dependencies as $dep) {
-			get_addon($dep);
-		}
+	if(!isset($allAddons[$addon])) {
+		print("NOTICE: Addon $addon not found.\n");
 	} else {
-		print("No plugin found $addon\n");
+		print("Downloading addon $addon from " . $allAddons[$addon]['repo'] . " repo...\n");
+		$cmd="wget " . $allAddons[$addon]['dlURL'] . " -O " . $addon . "-" . $allAddons[$addon]['version'] . ".zip";
+		exec($cmd);
+		print("Installing addon...\n");
+		$cmd="mkdir -p \"" . $kodipath . "\""; 
+		exec($cmd);
+		$cmd="unzip -o \"" . $addon . "-" . $allAddons[$addon]['version'] . ".zip\" -d \"" . $kodipath . "\"";
+		exec($cmd);
+		print("Addon $addon successfully installed.\n\n\n");
+		foreach($allAddons[$addon]['dependencies'] as $dep) {
+			installAddon($dep['name'], $allAddons);
+		}
 	}
-
 }
 
-$addons=explode(";",$argv[1]);
+$addons=explode("|",$argv[1]);
+$allAddons=getAllAddons($repos);
 foreach($addons as $addon) {
-	get_addon($addon);
+	installAddon($addon, $allAddons);
 }
 ?>

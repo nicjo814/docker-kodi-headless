@@ -87,7 +87,6 @@ libtag1-vanilla \
 libtag1c2a \
 libaacs0 \
 libbluray1 \
-libffi-dev \
 libjasper1 \
 libjpeg-turbo8 \
 libjpeg8 \
@@ -133,20 +132,6 @@ $buildDeps -qy && \
 # install runtime dependencies
 apt-get install \
 $runtimeDeps -qy && \
-
-# install pip and xam (and cliff)
-cd /tmp && \
-wget https://bootstrap.pypa.io/get-pip.py && \
-python get-pip.py && \
-pip install requests[security] && \
-pip install xam && \
-pip install cliff && \
-
-# patch xam with new repos
-cd /usr/local/lib/python2.7/dist-packages && \
-mv /root/xam.patch . && \
-patch -p0 -i xam.patch && \
-rm xam.patch && \
 
 # fetch source packages
 cd /tmp/ && \
