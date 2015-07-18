@@ -77,6 +77,7 @@ libxml2-dev \
 libxslt-dev \
 libiso9660-dev \
 libtinyxml-dev \
+libmodlug-dev \
 liblzo2-dev" && \
 
 # set runtime dependencies as variable
