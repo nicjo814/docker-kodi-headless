@@ -1,7 +1,7 @@
 # docker-kodi-headless
 **Headless Kodi images based on the images created by sparklyballs. All files required to build the Docker image is available on my Github account.**
 
-Usage: docker run -d [–restart-always] [-p <hostport>:<containerport>] [-e MYSQLip=<IP>] [-e MYSQLport=<port>] [-e MYSQLuser=<user>] [-e MYSQLpass=<pwd>] [-e KODIWATCHDOG=True|False] [-e KODIADDONS=<addons>] -v <hostpath>:/opt/kodi-server/share/kodi/portable_data nicjo814/docker-kodi-headless:<tag>
+Usage: docker run -d [–restart-always] [-p \<hostport\>:\<containerport\>] [-e MYSQLip=\<IP\>] [-e MYSQLport=\<port\>] [-e MYSQLuser=\<user\>] [-e MYSQLpass=\<pwd\>] [-e KODIWATCHDOG=True|False] [-e KODIADDONS=\<addons\>] -v \<hostpath\>:/opt/kodi-server/share/kodi/portable_data nicjo814/docker-kodi-headless:\<tag\>
 
 *\<hostport\>:* Port to map the Kodi webserver to on the host (port that will be used to actually reach the webserver).
 
