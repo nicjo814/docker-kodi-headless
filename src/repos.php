@@ -1,11 +1,6 @@
 <?php
 $repos=array(
 	array(
-		"name"=>"Isengard",
-		"xmlURL"=>"http://mirrors.xbmc.org/addons/isengard/addons.xml",
-		"repoURL"=>"http://mirrors.xbmc.org/addons/isengard",
-		"md5URL"=>"http://mirrors.xbmc.org/addons/isengard/addons.xml.md5"),
-	array(
 		"name"=>"Helix",
 		"xmlURL"=>"http://mirrors.xbmc.org/addons/helix/addons.xml",
 		"repoURL"=>"http://mirrors.xbmc.org/addons/helix",
