@@ -14,7 +14,7 @@ ADD src/ /root/
 RUN locale-gen en_US.UTF-8 && \
 
 # set kodi checkout version as variable
-kodiCheckout=Helix && \
+kodiCheckout=14.2-Helix && \
 
 # set kodi install dir as variable
 kodiInstall=/opt/kodi-server && \
@@ -138,7 +138,7 @@ $runtimeDeps -qy && \
 
 # fetch source packages
 cd /tmp/ && \
-git clone https://github.com/xbmc/xbmc.git && \
+git clone -b $kodiCheckout --single-branch https://github.com/xbmc/xbmc.git && \
 wget http://curl.haxx.se/download/curl-7.43.0.tar.gz && \
 
 # compile curl
@@ -155,7 +155,6 @@ make install && \
 # checkout required branch, apply patch(es), configure and build kodi
 cd $kodiBuild && \
 mv /root/headless.patch . && \
-git checkout $kodiCheckout && \
 git apply headless.patch && \
 # Configure, make, install kodi
 ./bootstrap && \
