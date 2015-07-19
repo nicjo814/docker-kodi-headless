@@ -14,7 +14,7 @@ ADD src/ /root/
 RUN locale-gen en_US.UTF-8 && \
 
 # set kodi checkout version as variable
-kodiCheckout=14.2-Helix && \
+kodiCheckout=Helix && \
 
 # set kodi install dir as variable
 kodiInstall=/opt/kodi-server && \
