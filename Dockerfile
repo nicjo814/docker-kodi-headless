@@ -138,7 +138,7 @@ $runtimeDeps -qy && \
 
 # fetch source packages
 cd /tmp/ && \
-git clone -b $kodiCheckout --single-branch https://github.com/xbmc/xbmc.git && \
+git clone -b $kodiCheckout --single-branch --depth 1 https://github.com/xbmc/xbmc.git && \
 wget http://curl.haxx.se/download/curl-7.43.0.tar.gz && \
 
 # compile curl
