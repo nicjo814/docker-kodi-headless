@@ -123,6 +123,8 @@ libxrandr2 \
 php5-cli \
 unzip \
 libsdl2-2.0-0 \
+libmodplug \
+libsdl-image1.2 \
 wget" && \
 
 # update apt
