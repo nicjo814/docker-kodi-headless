@@ -135,7 +135,7 @@ $runtimeDeps -qy && \
 
 # fetch source packages
 cd /tmp/ && \
-git clone https://github.com/xbmc/xbmc.git && \
+git clone -b $kodiCheckout --single-branch --depth 1 https://github.com/xbmc/xbmc.git && \
 wget http://curl.haxx.se/download/curl-7.43.0.tar.gz && \
 
 # compile curl
@@ -152,7 +152,6 @@ make install && \
 # checkout required branch, apply patch(es), configure and build kodi
 cd $kodiBuild && \
 mv /root/headless.patch . && \
-git checkout $kodiCheckout && \
 git apply headless.patch && \
 # Configure, make, install kodi
 ./bootstrap && \
