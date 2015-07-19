@@ -123,7 +123,7 @@ libxrandr2 \
 php5-cli \
 unzip \
 libsdl2-2.0-0 \
-libmodplug \
+libmodplug1 \
 libsdl-image1.2 \
 wget" && \
 
