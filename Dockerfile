@@ -122,6 +122,7 @@ liblzo2-2 \
 libxrandr2 \
 php5-cli \
 unzip \
+libsdl2-2.0-0 \
 wget" && \
 
 # update apt
