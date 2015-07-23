@@ -13,34 +13,6 @@ echo "Creating advancedsettings.xml"
 cp /root/advancedsettings.xml "$KODIPATH/userdata/advancedsettings.xml"
 fi
 
-#Check if the KODIWATCHDOG variable has been passed in as TRUE
-TRUEVAR=TRUE
-if [ "${KODIWATCHDOG,,}" = "${TRUEVAR,,}" ]; then
-	echo "Watchdog set"
-	if [ -d "$KODIPATH/addons/service.watchdog" ]; then
-		echo "Watchdog already installed"
-	else
-		echo "Installaing Watchdog addon"
-		if [ -d "$KODIPATH/addons" ]; then
-			echo "Addons folder exists already"
-		else
-			mkdir -p "$KODIPATH/addons"
-		fi
-		git clone -b headless --single-branch https://github.com/nicjo814/xbmc-addon-watchdog.git "$KODIPATH/addons/service.watchdog"
-		if [ -d "$KODIPATH/userdata/addon_data/service.watchdog" ]; then
-			echo "Watchdog settings folder exists already"
-		else
-			mkdir -p "$KODIPATH/userdata/addon_data/service.watchdog"
-		fi
-		if [ -f "$KODIPATH/userdata/addon_data/service.watchdog/settings.xml" ]; then
-			echo "Watchdog settings exists already"
-		else
-			cp /root/settings.xml "$KODIPATH/userdata/addon_data/service.watchdog"
-		fi
-		touch "$KODIPATH/userdata/sources.xml"
-	fi
-fi
-
 #Check if any plugins are passed to the container
 if [ -z "$KODIADDONS" ]; then
 	echo "No addons passed"
